@@ -1,0 +1,415 @@
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --black: #0a0a0a;
+    --white: #f5f3ee;
+    --accent: #e8ff00;
+    --mid: #1a1a1a;
+    --muted: #888;
+  }
+  html, body {
+    width: 100%; height: 100%;
+    overflow-x: hidden; overflow-y: auto;
+    scroll-behavior: smooth;
+  }
+  body {
+    background: var(--black);
+    color: var(--white);
+    font-family: 'DM Sans', sans-serif;
+    font-weight: 400;
+  }
+
+  /* ── ANIMATIONS ── */
+  .reveal {
+    opacity: 0; transform: translateY(28px);
+    transition: opacity 0.7s cubic-bezier(0.22,1,0.36,1), transform 0.7s cubic-bezier(0.22,1,0.36,1);
+  }
+  .reveal.visible { opacity: 1; transform: translateY(0); }
+  .delay-1 { transition-delay: 0.08s; }
+  .delay-2 { transition-delay: 0.16s; }
+  .delay-3 { transition-delay: 0.24s; }
+  .delay-4 { transition-delay: 0.32s; }
+
+  /* ── NAV ── */
+  nav {
+    position: sticky; top: 0; z-index: 100;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 1.2rem 3rem;
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(14px);
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    width: 100%;
+  }
+  .nav-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.7rem; letter-spacing: 0.05em; color: var(--white);
+    text-decoration: none;
+  }
+  .nav-logo span { color: var(--accent); }
+  .nav-links { display: flex; gap: 2rem; list-style: none; }
+  .nav-links a {
+    color: var(--muted); text-decoration: none;
+    font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase;
+    transition: color 0.2s;
+  }
+  .nav-links a:hover, .nav-links a.active { color: var(--white); }
+  .nav-cta {
+    background: var(--accent); color: var(--black);
+    border: none; padding: 0.55rem 1.4rem;
+    font-family: 'DM Sans', sans-serif; font-weight: 500;
+    font-size: 0.82rem; letter-spacing: 0.06em; text-transform: uppercase;
+    cursor: pointer; transition: opacity 0.2s;
+  }
+  .nav-cta:hover { opacity: 0.85; }
+
+  /* ── PAGE HEADER ── */
+  .page-header {
+    padding: 5rem 3rem 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    position: relative; overflow: hidden;
+  }
+  .page-header-bg {
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse 60% 100% at 80% 50%, rgba(232,255,0,0.05) 0%, transparent 60%);
+  }
+  .page-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.22em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 1rem;
+    display: flex; align-items: center; gap: 0.75rem;
+    animation: fadeSlideIn 0.6s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  .page-eyebrow::before {
+    content: ''; display: block; width: 2rem; height: 1px; background: var(--accent);
+  }
+  .page-title {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(3rem, 7vw, 6rem);
+    line-height: 0.95; letter-spacing: 0.02em;
+    animation: fadeSlideIn 0.7s 0.2s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  .page-sub {
+    margin-top: 1.25rem;
+    font-size: 1rem; color: var(--muted); line-height: 1.7;
+    max-width: 500px; font-weight: 300;
+    animation: fadeSlideIn 0.7s 0.3s cubic-bezier(0.22,1,0.36,1) both;
+  }
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  /* ── CATEGORY TABS ── */
+  .category-tabs {
+    display: flex; gap: 0;
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    padding: 0 3rem;
+    background: var(--black);
+    position: sticky; top: 65px; z-index: 90;
+  }
+  .tab {
+    font-family: 'DM Sans', sans-serif;
+    font-size: 0.82rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--muted); padding: 1rem 1.5rem;
+    border: none; background: none; cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: color 0.2s, border-color 0.2s;
+    margin-bottom: -1px;
+    text-decoration: none; display: inline-block;
+  }
+  .tab:hover { color: var(--white); }
+  .tab.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* ── PRODUCT SECTION ── */
+  .product-section {
+    padding: 5rem 3rem;
+    border-bottom: 1px solid rgba(255,255,255,0.06);
+    max-width: 1200px; margin: 0 auto;
+  }
+  .section-header {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    margin-bottom: 3rem;
+  }
+  .section-eyebrow {
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--accent); margin-bottom: 0.5rem;
+  }
+  .section-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: clamp(2rem, 4vw, 3rem); letter-spacing: 0.02em;
+  }
+  .section-badge {
+    font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: var(--accent); border: 1px solid var(--accent);
+    padding: 0.3rem 0.8rem; white-space: nowrap;
+  }
+  .section-badge.soon {
+    color: var(--muted); border-color: var(--muted);
+  }
+
+  /* ── PRODUCT GRID ── */
+  .items-grid {
+    display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px;
+  }
+  .item-card {
+    background: var(--mid); padding: 2rem;
+    border: 1px solid rgba(255,255,255,0.05);
+    transition: border-color 0.25s, transform 0.3s cubic-bezier(0.22,1,0.36,1);
+    cursor: pointer;
+  }
+  .item-card:hover { border-color: var(--accent); transform: translateY(-3px); }
+  .item-visual {
+    width: 100%; aspect-ratio: 1;
+    background: var(--black);
+    border: 1px solid rgba(255,255,255,0.06);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 4rem; margin-bottom: 1.5rem;
+    transition: border-color 0.25s;
+  }
+  .item-card:hover .item-visual { border-color: rgba(232,255,0,0.2); }
+  .item-name {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.4rem; letter-spacing: 0.04em; margin-bottom: 0.4rem;
+  }
+  .item-desc {
+    font-size: 0.85rem; color: var(--muted); line-height: 1.7; font-weight: 300;
+    margin-bottom: 1.25rem;
+  }
+  .item-footer {
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .item-price {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.6rem; letter-spacing: 0.04em; color: var(--white);
+  }
+  .item-price.tbd {
+    font-size: 1rem; font-family: 'DM Sans', sans-serif;
+    color: var(--muted); font-weight: 300; letter-spacing: 0.05em;
+  }
+  .item-btn {
+    background: var(--accent); color: var(--black);
+    border: none; padding: 0.5rem 1.1rem;
+    font-family: 'DM Sans', sans-serif; font-weight: 500;
+    font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase;
+    cursor: pointer; transition: opacity 0.2s;
+  }
+  .item-btn:hover { opacity: 0.85; }
+  .item-btn.soon {
+    background: transparent; color: var(--muted);
+    border: 1px solid rgba(255,255,255,0.15); cursor: default;
+  }
+
+  /* ── COMING SOON BANNER ── */
+  .coming-soon-banner {
+    background: var(--mid); border: 1px solid rgba(255,255,255,0.06);
+    padding: 3rem; text-align: center;
+    display: flex; flex-direction: column; align-items: center; gap: 1rem;
+  }
+  .coming-soon-banner .big {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 2.5rem; letter-spacing: 0.06em; color: var(--muted);
+  }
+  .coming-soon-banner p {
+    font-size: 0.9rem; color: var(--muted); max-width: 360px; line-height: 1.7; font-weight: 300;
+  }
+  .notify-row {
+    display: flex; gap: 0; margin-top: 0.5rem;
+  }
+  .notify-input {
+    background: var(--black); border: 1px solid rgba(255,255,255,0.15);
+    border-right: none; padding: 0.7rem 1rem;
+    font-family: 'DM Sans', sans-serif; font-size: 0.85rem;
+    color: var(--white); outline: none; width: 240px;
+  }
+  .notify-input::placeholder { color: var(--muted); }
+  .notify-btn {
+    background: var(--accent); color: var(--black);
+    border: none; padding: 0.7rem 1.2rem;
+    font-family: 'DM Sans', sans-serif; font-weight: 500;
+    font-size: 0.8rem; letter-spacing: 0.06em; text-transform: uppercase;
+    cursor: pointer; transition: opacity 0.2s; white-space: nowrap;
+  }
+  .notify-btn:hover { opacity: 0.85; }
+
+  /* ── FOOTER ── */
+  footer {
+    border-top: 1px solid rgba(255,255,255,0.08);
+    padding: 2rem 3rem;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .footer-logo {
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.3rem; letter-spacing: 0.06em;
+    text-decoration: none; color: var(--white);
+  }
+  .footer-logo span { color: var(--accent); }
+  .footer-copy { font-size: 0.78rem; color: var(--muted); letter-spacing: 0.04em; }
+</style>
+
+<div id="site-root" style="width:100%; min-height:100vh; display:flex; flex-direction:column;">
+
+<nav>
+  <a class="nav-logo" href="index.html">Virtex<span>.</span>Sports</a>
+  <ul class="nav-links">
+    <li><a href="products.html" class="active">Products</a></li>
+    <li><a href="#">Technology</a></li>
+    <li><a href="#">About</a></li>
+    <li><a href="#">Contact</a></li>
+  </ul>
+  <button class="nav-cta">Shop Now</button>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-bg"></div>
+  <div class="page-eyebrow">Virtex Sports — Catalog</div>
+  <h1 class="page-title">All Products</h1>
+  <p class="page-sub">Built for athletes who demand more. Every product engineered from the ground up for performance.</p>
+</div>
+
+<!-- CATEGORY TABS -->
+<div class="category-tabs">
+  <a href="#paddles" class="tab active">Paddle Series</a>
+  <a href="#pickleballs" class="tab">Pickleball Series</a>
+  <a href="#apparel" class="tab">Gear & Apparel</a>
+</div>
+
+<!-- ── PADDLE SERIES ── -->
+<div id="paddles" style="background: var(--black);">
+  <div class="product-section">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-eyebrow">Category 01</div>
+        <div class="section-name">Paddle Series</div>
+      </div>
+      <span class="section-badge">New Drop</span>
+    </div>
+    <div class="items-grid">
+      <div class="item-card reveal delay-1">
+        <div class="item-visual">🏓</div>
+        <div class="item-name">Virtex Pro X1</div>
+        <p class="item-desc">Carbon fiber face with polymer core. Optimized for power players who want snap and control at the kitchen line.</p>
+        <div class="item-footer">
+          <div class="item-price">$149</div>
+          <button class="item-btn">Add to Cart</button>
+        </div>
+      </div>
+      <div class="item-card reveal delay-2">
+        <div class="item-visual">🏓</div>
+        <div class="item-name">Virtex Control C1</div>
+        <p class="item-desc">Fiberglass face with textured surface for spin and placement. Built for finesse players and all-court versatility.</p>
+        <div class="item-footer">
+          <div class="item-price">$119</div>
+          <button class="item-btn">Add to Cart</button>
+        </div>
+      </div>
+      <div class="item-card reveal delay-3">
+        <div class="item-visual">🏓</div>
+        <div class="item-name">Virtex Comp S1</div>
+        <p class="item-desc">Entry-level composite paddle with a wide body shape. Great feel and touch for developing players.</p>
+        <div class="item-footer">
+          <div class="item-price">$79</div>
+          <button class="item-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── PICKLEBALL SERIES ── -->
+<div id="pickleballs" style="background: var(--mid);">
+  <div class="product-section">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-eyebrow">Category 02</div>
+        <div class="section-name">Pickleball Series</div>
+      </div>
+      <span class="section-badge">New Drop</span>
+    </div>
+    <div class="items-grid">
+      <div class="item-card reveal delay-1" style="background: var(--black);">
+        <div class="item-visual" style="background: var(--mid);">🟡</div>
+        <div class="item-name">Virtex Tour Outdoor</div>
+        <p class="item-desc">40-hole hard court ball. Seamless construction, consistent bounce, and durable enough for tournament play.</p>
+        <div class="item-footer">
+          <div class="item-price">$29 <span style="font-size:0.9rem; color: var(--muted)">/ 3-pack</span></div>
+          <button class="item-btn">Add to Cart</button>
+        </div>
+      </div>
+      <div class="item-card reveal delay-2" style="background: var(--black);">
+        <div class="item-visual" style="background: var(--mid);">🟡</div>
+        <div class="item-name">Virtex Tour Indoor</div>
+        <p class="item-desc">26-hole softer ball for gym and indoor court surfaces. Quieter, with enhanced control on hardwood.</p>
+        <div class="item-footer">
+          <div class="item-price">$24 <span style="font-size:0.9rem; color: var(--muted)">/ 3-pack</span></div>
+          <button class="item-btn">Add to Cart</button>
+        </div>
+      </div>
+      <div class="item-card reveal delay-3" style="background: var(--black);">
+        <div class="item-visual" style="background: var(--mid);">🟡</div>
+        <div class="item-name">Virtex Practice Pack</div>
+        <p class="item-desc">12-ball training pack with mixed indoor/outdoor. Ideal for drilling, clinics, and court time.</p>
+        <div class="item-footer">
+          <div class="item-price">$69 <span style="font-size:0.9rem; color: var(--muted)">/ 12-pack</span></div>
+          <button class="item-btn">Add to Cart</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ── GEAR & APPAREL ── -->
+<div id="apparel" style="background: var(--black);">
+  <div class="product-section">
+    <div class="section-header reveal">
+      <div>
+        <div class="section-eyebrow">Category 03</div>
+        <div class="section-name">Gear & Apparel</div>
+      </div>
+      <span class="section-badge soon">Coming Soon</span>
+    </div>
+    <div class="coming-soon-banner reveal delay-1">
+      <div class="big">In Development</div>
+      <p>Technical apparel and gear is currently in development. Drop your email to be first to know when it launches.</p>
+      <div class="notify-row">
+        <input class="notify-input" type="email" placeholder="your@email.com" />
+        <button class="notify-btn">Notify Me</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<footer>
+  <a class="footer-logo" href="index.html">Virtex<span>.</span>Sports</a>
+  <div class="footer-copy">© 2025 Virtex Sports LLC · Massachusetts</div>
+</footer>
+
+</div>
+
+<script>
+  // Scroll reveal
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+        observer.unobserve(entry.target);
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
+
+  // Active tab on scroll
+  const sections = ['paddles', 'pickleballs', 'apparel'];
+  const tabs = document.querySelectorAll('.tab');
+  window.addEventListener('scroll', () => {
+    let current = 'paddles';
+    sections.forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window.scrollY >= el.offsetTop - 140) current = id;
+    });
+    tabs.forEach(tab => {
+      tab.classList.toggle('active', tab.getAttribute('href') === '#' + current);
+    });
+  }, { passive: true });
+</script>
