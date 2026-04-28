@@ -98,6 +98,13 @@
     position: relative;
     overflow: hidden;
   }
+  .hero-img-wrap {
+    position: absolute; inset: 0; overflow: hidden;
+  }
+  .hero-img-wrap img {
+    width: 100%; height: 100%; object-fit: cover;
+    opacity: 0.2; filter: grayscale(40%) brightness(0.7);
+  }
   .hero-bg {
     position: absolute; inset: 0;
     background:
@@ -257,12 +264,16 @@
   }
   .product-card:hover { border-color: var(--accent); transform: translateY(-4px); }
   .product-icon {
-    width: 48px; height: 48px; margin-bottom: 1.5rem;
-    border: 1px solid rgba(255,255,255,0.15);
-    display: flex !important; align-items: center; justify-content: center;
-    font-size: 1.4rem; transition: border-color 0.25s;
+    width: 100%; aspect-ratio: 4/3; margin-bottom: 1.5rem;
+    border: 1px solid rgba(255,255,255,0.1);
+    overflow: hidden; transition: border-color 0.25s;
+  }
+  .product-icon img {
+    width: 100%; height: 100%; object-fit: cover;
+    filter: grayscale(20%); transition: transform 0.5s cubic-bezier(0.22,1,0.36,1), filter 0.3s;
   }
   .product-card:hover .product-icon { border-color: var(--accent); }
+  .product-card:hover .product-icon img { transform: scale(1.04); filter: grayscale(0%); }
   .product-name {
     font-family: 'Bebas Neue', sans-serif;
     font-size: 1.6rem; letter-spacing: 0.04em; margin-bottom: 0.75rem;
@@ -327,6 +338,9 @@
 </nav>
 
 <section class="hero">
+  <div class="hero-img-wrap">
+    <img src="https://picsum.photos/seed/virtex-hero/1600/900" alt="">
+  </div>
   <div class="hero-bg"></div>
   <div class="hero-grid"></div>
   <div class="hero-number">01</div>
@@ -394,19 +408,19 @@
   </div>
   <div class="products-grid">
     <div class="product-card reveal delay-1" onclick="window.location.href='products.html#paddles'" style="cursor:pointer;">
-      <div class="product-icon">🏓</div>
+      <div class="product-icon"><img src="https://picsum.photos/seed/virtex-paddle/600/450" alt="Paddle Series"></div>
       <div class="product-name">Paddle Series</div>
       <p class="product-desc">High-performance pickleball paddles engineered with composite materials for unmatched control and power at every skill level.</p>
       <span class="product-tag">New Drop</span>
     </div>
     <div class="product-card reveal delay-2" onclick="window.location.href='products.html#pickleballs'" style="cursor:pointer;">
-      <div class="product-icon">🟡</div>
+      <div class="product-icon"><img src="https://picsum.photos/seed/virtex-ball/600/450" alt="Pickleball Series"></div>
       <div class="product-name">Pickleball Series</div>
       <p class="product-desc">Tour-grade pickleballs engineered for consistent bounce, durability, and true flight — built to perform in any condition, indoor or outdoor.</p>
       <span class="product-tag">New Drop</span>
     </div>
     <div class="product-card reveal delay-3" onclick="window.location.href='products.html#apparel'" style="cursor:pointer;">
-      <div class="product-icon">🎯</div>
+      <div class="product-icon"><img src="https://picsum.photos/seed/virtex-apparel/600/450" alt="Gear & Apparel"></div>
       <div class="product-name">Gear & Apparel</div>
       <p class="product-desc">Technical apparel and accessories built for athletes in motion — lightweight, durable, and built to last the season.</p>
       <span class="product-tag">Coming Soon</span>
